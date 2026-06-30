@@ -1,0 +1,97 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="about — studio boja.">
+  <main class="about-page">
+    <div class="about-layout">
+      <div class="about-image">
+        <img
+          src="/images/placeholder.jpg"
+          alt="studio boja."
+          loading="eager"
+        />
+      </div>
+
+      <div class="about-text">
+        <p class="about-text__heading">about boja.</p>
+        <p>
+          studio boja. is a young Amsterdam based studio specialising in
+          residential and commercial interior design.
+        </p>
+        <p>
+          Our design process starts with understanding you, your daily rhythms,
+          how you move around a space and what you're drawn to without knowing
+          why. That becomes the foundation for a process of layering
+          functionality, atmosphere and character.
+        </p>
+        <p>
+          The result is a space that is unmistakably yours and one that grows
+          with you. It ages, develops, and becomes more itself over time. A home
+          meant to be fully lived in.
+        </p>
+
+        <p class="about-text__cta">
+          "whether you're looking to transform your space or need a second
+          opinion, <a href="/services/">explore our services</a>"
+        </p>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .about-page {
+    padding: 40px 0 80px;
+  }
+
+  .about-layout {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    padding: 0 var(--page-side-padding);
+  }
+
+  .about-image {
+    flex-shrink: 0;
+    width: var(--thumb-w);
+  }
+
+  .about-image img {
+    width: var(--thumb-w);
+    height: var(--thumb-h);
+    object-fit: cover;
+  }
+
+  .about-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 360px;
+  }
+
+  .about-text p,
+  .about-text__heading,
+  .about-text__cta {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    line-height: 1.6;
+    text-transform: lowercase;
+    color: var(--color-text-primary);
+  }
+
+  .about-text__heading {
+    font-weight: 700;
+  }
+
+  .about-text__cta {
+    margin-top: 8px;
+    font-weight: 700;
+  }
+
+  .about-text__cta a {
+    color: var(--color-text-nav);
+  }
+</style>

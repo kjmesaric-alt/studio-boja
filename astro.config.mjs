@@ -1,5 +1,9 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// https://astro.build/config
-export default defineConfig({});
+// Custom domain: set site to your domain, base stays '/'
+// If using github.io sub-path instead, change base to '/studio-boja/'
+export default defineConfig({
+  site: 'https://TODO-your-domain.com', // TODO: replace with real domain
+  base: '/',
+});

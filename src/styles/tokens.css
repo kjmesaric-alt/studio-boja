@@ -1,0 +1,65 @@
+@font-face {
+  font-family: "Afacad";
+  src: url("/fonts/Afacad-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Afacad";
+  src: url("/fonts/Afacad-Italic-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* ── Background ─────────────────────────────────── */
+  --color-bg: #f5f5f5;
+
+  /* ── Text ───────────────────────────────────────── */
+  /* TODO: replace with the primary text colour once provided */
+  --color-text-primary: #1a1a1a;
+  /* Nav: studio name + menu items, splash text */
+  --color-text-nav: #741f19;
+
+  /* ── Arrows (project gallery / lightbox) ────────── */
+  --color-arrow: #b3b3b3;
+
+  /* ── Hover colour combos (5 pairs) ─────────────── */
+  /* TODO: replace each BG/text pair once the owner provides them */
+  --hover-bg-1: #e8e0d8;
+  --hover-text-1: #3a2a20;
+
+  --hover-bg-2: #d8e0e8;
+  --hover-text-2: #1a2a3a;
+
+  --hover-bg-3: #e8e8d8;
+  --hover-text-3: #2a3a1a;
+
+  --hover-bg-4: #e8d8e0;
+  --hover-text-4: #3a1a2a;
+
+  --hover-bg-5: #d8e8e0;
+  --hover-text-5: #1a3a2a;
+
+  /* ── Image sizing ───────────────────────────────── */
+  --thumb-w: 480px;
+  --thumb-h: 500px;
+  --project-img-max-w: 770px;
+  --lightbox-max-w: 1100px;
+  --lightbox-max-h: 700px;
+
+  /* ── Typography ─────────────────────────────────── */
+  --font-family: "Afacad", system-ui, sans-serif;
+  --font-size-base: 13px;
+  /* studio name: 9% letter-spacing */
+  --nav-name-letter-spacing: 0.09em;
+  /* menu items: 0% letter-spacing */
+  --nav-menu-letter-spacing: 0em;
+
+  /* ── Layout ─────────────────────────────────────── */
+  --grid-gap: 24px;
+  --page-side-padding: 80px;
+}

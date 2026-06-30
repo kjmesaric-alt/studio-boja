@@ -1,0 +1,45 @@
+---
+import Thumbnail from "./Thumbnail.astro";
+import { getProjectCover, getHoverCombo, entrySlug } from "../lib/projects";
+
+interface ProjectEntry {
+  id: string;
+  data: {
+    title: string;
+    order: number;
+  };
+}
+
+interface Props {
+  projects: ProjectEntry[];
+}
+
+const { projects } = Astro.props;
+
+const sorted = [...projects].sort((a, b) => a.data.order - b.data.order);
+---
+
+<div class="project-grid">
+  {
+    sorted.map((p) => {
+      const slug = entrySlug(p.id);
+      return (
+        <Thumbnail
+          slug={slug}
+          title={p.data.title}
+          cover={getProjectCover(slug)}
+          hoverCombo={getHoverCombo(slug)}
+        />
+      );
+    })
+  }
+</div>
+
+<style>
+  .project-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--grid-gap);
+    padding: 0 var(--page-side-padding);
+  }
+</style>

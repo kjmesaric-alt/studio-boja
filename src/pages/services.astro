@@ -1,0 +1,86 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// TODO: Replace placeholder services with real names, images, and descriptions.
+const services = [
+  {
+    title: "residential design",
+    description:
+      "Placeholder description for residential design services. Replace with the real service description.",
+    image: "/images/placeholder.jpg",
+  },
+  {
+    title: "commercial design",
+    description:
+      "Placeholder description for commercial design services. Replace with the real service description.",
+    image: "/images/placeholder.jpg",
+  },
+  {
+    title: "graphic design",
+    description:
+      "Placeholder description for graphic design services. Replace with the real service description.",
+    image: "/images/placeholder.jpg",
+  },
+  {
+    title: "consultancy",
+    description:
+      "Placeholder description for consultancy services. Replace with the real service description.",
+    image: "/images/placeholder.jpg",
+  },
+];
+---
+
+<BaseLayout title="services — studio boja.">
+  <main class="services-page">
+    <div class="services-grid">
+      {
+        services.map((s) => (
+          <div class="service">
+            <img
+              class="service__img"
+              src={s.image}
+              alt={s.title}
+              loading="lazy"
+            />
+            <p class="service__description">{s.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .services-page {
+    padding: 40px 0 80px;
+  }
+
+  .services-grid {
+    display: flex;
+    gap: var(--grid-gap);
+    padding: 0 var(--page-side-padding);
+    align-items: flex-start;
+  }
+
+  .service {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .service__img {
+    width: 100%;
+    aspect-ratio: 480 / 500;
+    object-fit: cover;
+  }
+
+  .service__description {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    line-height: 1.6;
+    text-transform: lowercase;
+    color: var(--color-text-primary);
+  }
+</style>

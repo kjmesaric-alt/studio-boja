@@ -1,5 +1,5 @@
 {
-  "name": "apparent-apogee",
+  "name": "studio-boja",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -9,9 +9,14 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "new": "bash scripts/new-project.sh"
   },
   "dependencies": {
     "astro": "^7.0.4"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "fsevents@2.3.3": true
   }
 }

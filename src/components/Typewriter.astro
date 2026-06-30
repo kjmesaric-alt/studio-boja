@@ -1,0 +1,62 @@
+---
+// Pure client-side component; no props needed.
+// The text and redirect are handled entirely in the <script>.
+---
+
+<div class="splash" id="splash">
+  <span class="splash__text" id="splash-text" aria-label="studio boja."></span>
+</div>
+
+<script>
+  const FULL_TEXT = "studio boja.";
+  const CHAR_DELAY = 90;   // ms between characters
+  const HOLD_DURATION = 800; // ms to hold after last character
+  const FADE_DURATION = 600; // ms for the fade-out
+
+  const el = document.getElementById("splash-text")!;
+  const splash = document.getElementById("splash")!;
+
+  let i = 0;
+
+  function type() {
+    if (i <= FULL_TEXT.length) {
+      el.textContent = FULL_TEXT.slice(0, i);
+      i++;
+      setTimeout(type, CHAR_DELAY);
+    } else {
+      setTimeout(fadeOut, HOLD_DURATION);
+    }
+  }
+
+  function fadeOut() {
+    splash.style.transition = `opacity ${FADE_DURATION}ms ease`;
+    splash.style.opacity = "0";
+    setTimeout(() => {
+      window.location.href = "/work/";
+    }, FADE_DURATION);
+  }
+
+  type();
+</script>
+
+<style>
+  .splash {
+    position: fixed;
+    inset: 0;
+    background-color: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 1;
+  }
+
+  .splash__text {
+    font-family: var(--font-family);
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: var(--nav-name-letter-spacing);
+    text-transform: lowercase;
+    color: var(--color-text-nav);
+  }
+</style>

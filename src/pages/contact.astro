@@ -1,0 +1,165 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// TODO: Wire form to a provider (Formspree, Web3Forms, etc.) once chosen.
+// Replace action="#" with the provider's endpoint URL.
+// TODO: Update email and phone once confirmed.
+// TODO: Update inquiry options once confirmed.
+const inquiryOptions = [
+  "residential design",
+  "commercial design",
+  "graphic design",
+  "consultancy",
+];
+---
+
+<BaseLayout title="contact — studio boja.">
+  <main class="contact-page">
+    <div class="contact-layout">
+      <div class="contact-form-col">
+        <p class="contact-heading">get in touch</p>
+        <form class="contact-form" action="#" method="POST">
+          <label class="contact-form__row">
+            <span class="contact-form__label">name</span>
+            <input
+              class="contact-form__input"
+              type="text"
+              name="name"
+              required
+              autocomplete="name"
+            />
+          </label>
+
+          <label class="contact-form__row">
+            <span class="contact-form__label">email</span>
+            <input
+              class="contact-form__input"
+              type="email"
+              name="email"
+              required
+              autocomplete="email"
+            />
+          </label>
+
+          <label class="contact-form__row">
+            <span class="contact-form__label">project type</span>
+            <select class="contact-form__input contact-form__select" name="project_type" required>
+              <option value="" disabled selected></option>
+              {inquiryOptions.map((o) => <option value={o}>{o}</option>)}
+            </select>
+          </label>
+
+          <label class="contact-form__row contact-form__row--textarea">
+            <span class="contact-form__label">tell me about your project</span>
+            <textarea
+              class="contact-form__textarea"
+              name="message"
+              rows="5"
+            ></textarea>
+          </label>
+
+          <button class="contact-form__submit" type="submit">send</button>
+        </form>
+      </div>
+
+      <div class="contact-direct-col">
+        <p class="contact-heading">or reach out directly at</p>
+        <!-- TODO: confirm email and phone -->
+        <p class="contact-direct__item">hoj@boja.com</p>
+        <p class="contact-direct__item">+31 6 45 179 256</p>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .contact-page {
+    padding: 80px 0 80px;
+  }
+
+  .contact-layout {
+    display: flex;
+    gap: 120px;
+    padding: 0 var(--page-side-padding);
+    align-items: flex-start;
+  }
+
+  .contact-heading {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    text-transform: lowercase;
+    color: var(--color-text-primary);
+    margin-bottom: 24px;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 280px;
+  }
+
+  .contact-form__row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .contact-form__label {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    text-transform: lowercase;
+    color: var(--color-text-primary);
+  }
+
+  .contact-form__input,
+  .contact-form__select,
+  .contact-form__textarea {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-text-primary);
+    padding: 4px 0;
+    color: var(--color-text-primary);
+    outline: none;
+    appearance: none;
+    width: 180px;
+  }
+
+  .contact-form__textarea {
+    width: 100%;
+    resize: vertical;
+    border: 1px solid var(--color-text-primary);
+    padding: 8px;
+  }
+
+  .contact-form__submit {
+    align-self: flex-start;
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    text-transform: lowercase;
+    color: var(--color-text-primary);
+    border-bottom: 1px solid var(--color-text-primary);
+    padding-bottom: 2px;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+
+  .contact-direct-col {
+    padding-top: 4px;
+  }
+
+  .contact-direct__item {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: 400;
+    text-transform: lowercase;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+  }
+</style>

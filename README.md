@@ -1,43 +1,49 @@
-# Astro Starter Kit: Minimal
+# studio boja.
 
-```sh
-npm create astro@latest -- --template minimal
+Portfolio website for studio boja. — an Amsterdam-based interior design studio.
+
+## Running locally
+
+```bash
+npm install       # install dependencies (first time only)
+npm run dev       # start dev server → http://localhost:4321
+npm run build     # production build into dist/
+npm run preview   # preview the production build locally
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Requires Node.js 22+. Check `.nvmrc`.
 
-## 🚀 Project Structure
+## Adding a project
 
-Inside of your Astro project, you'll see the following folders and files:
+See [ADDING-A-PROJECT.md](ADDING-A-PROJECT.md) for the full guide.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+Quick scaffold:
+
+```bash
+npm run new my-project-slug
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Then edit `src/content/projects/my-project-slug/index.md` and drop images into
+`public/projects/my-project-slug/`. Commit and push — the site rebuilds automatically.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Deploying (GitHub Pages)
 
-Any static assets, like images, can be placed in the `public/` directory.
+Automatic on push to `main` via `.github/workflows/deploy.yml`.
 
-## 🧞 Commands
+One-time repo setup:
+1. **Settings → Pages → Source = GitHub Actions**
+2. Add your custom domain and put it in `public/CNAME`
 
-All commands are run from the root of the project, from a terminal:
+## Project struct## Project struct## Project struct## Project struct## Project strund## Project s    ## Project struct## Project struct## Project struct## Project struct## Projec image## Project stru, 02.## Pro�)## Project struct## Project struct## Projenail, ProjectGrid## Project struct## Project struct## Project struct## Projectndex (splash), work/, services, about, contact
+src/styles/tokens.css          all design tokens (colours, sizes, fonts)
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Customising colours
 
-## 👀 Want to learn more?
+Edit `src/styles/tokens.css`. Fill in the `TODO` placeholder values:
+- `--color-text-primary`
+- `--hover-bg-1` through `--hover-bg-5` and matching `--hover-text-*`
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Open items
+
+See `todo.md` (gitignored, local only).
