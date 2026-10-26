@@ -35,3 +35,17 @@ skills-lock.json
 # editor / OneDrive leftovers
 *.swp
 .~lock.*
+
+# not needed for the website — kept on this computer only
+AGENTS.md
+CLAUDE.md
+README.md
+ADDING-A-PROJECT.md
+guidelines.md
+PROJECT-PLAN.md
+*.md
+!src/content/**/*.md
+scripts/
+.vscode/
+.nvmrc
+Afacad/
