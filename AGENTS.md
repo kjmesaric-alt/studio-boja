@@ -34,7 +34,7 @@ Node 22+ required (see `.nvmrc`).
 
 ## Deployment
 
-Pushing to `main` on GitHub triggers `.github/workflows/deploy.yml`, which builds and publishes to GitHub Pages. `astro.config.mjs` still has a placeholder `site` (`TODO-your-domain.com`); with a custom domain `base` stays `/`, with a `<user>.github.io/studio-boja/` address `base` must be `/studio-boja/`.
+Pushing to `main` on GitHub triggers `.github/workflows/deploy.yml`, which builds and publishes to GitHub Pages. The site is served on the custom domain `boja.studio` (`site` in `astro.config.mjs`, plus `public/CNAME`), so `base` stays `/` and internal links are root-relative (`href="/about/"`).
 
 ## Git and GitHub rules (important)
 
