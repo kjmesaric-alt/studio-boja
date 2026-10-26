@@ -3,14 +3,14 @@ interface Props {
   slug: string;
   title: string;
   cover: string;
-  hoverCombo: number; // 1–5
+  hoverCombo: number; // 1–6
 }
 
 const { slug, title, cover, hoverCombo } = Astro.props;
 ---
 
 <a
-  href={`/work/${slug}/`}
+  href={`/${slug}/`}
   class="thumbnail"
   data-hover-combo={hoverCombo}
   style={`--thumb-bg: var(--hover-bg-${hoverCombo}); --thumb-text: var(--hover-text-${hoverCombo});`}
@@ -46,9 +46,8 @@ const { slug, title, cover, hoverCombo } = Astro.props;
     justify-content: center;
     font-family: var(--font-family);
     font-size: var(--font-size-base);
-    font-weight: 400;
-    letter-spacing: 0;
-    text-transform: lowercase;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     color: var(--thumb-text);
     opacity: 0;
     transition: opacity 0.35s ease;

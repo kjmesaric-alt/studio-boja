@@ -11,6 +11,8 @@ npm run build     # production build into dist/
 npm run preview   # preview the production build locally
 ```
 
+Open locally: http://localhost:4321
+
 Requires Node.js 22+. Check `.nvmrc`.
 
 ## Adding a project
@@ -34,8 +36,29 @@ One-time repo setup:
 1. **Settings → Pages → Source = GitHub Actions**
 2. Add your custom domain and put it in `public/CNAME`
 
-## Project struct## Project struct## Project struct## Project struct## Project strund## Project s    ## Project struct## Project struct## Project struct## Project struct## Projec image## Project stru, 02.## Pro�)## Project struct## Project struct## Projenail, ProjectGrid## Project struct## Project struct## Project struct## Projectndex (splash), work/, services, about, contact
-src/styles/tokens.css          all design tokens (colours, sizes, fonts)
+## Documentation
+
+- Astro docs: https://docs.astro.build
+- Add project guide: [ADDING-A-PROJECT.md](ADDING-A-PROJECT.md)
+
+## Project structure
+
+```text
+src/
+	components/                  shared UI components (Nav, Typewriter, ImageGallery, ProjectGrid)
+	content/projects/            project content files (.md)
+	layouts/BaseLayout.astro     base page layout
+	lib/projects.ts              project data helpers
+	pages/                       routes (index, residential, commercial, services, about, contact, [slug])
+	styles/tokens.css            design tokens (colors, spacing, fonts)
+	styles/global.css            global styles
+
+public/
+	images/                      static site images
+	projects/                    project-specific media
+	fonts/                       local fonts
+
+scripts/new-project.sh         scaffold a new project content entry
 ```
 
 ## Customising colours

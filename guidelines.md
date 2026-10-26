@@ -303,3 +303,88 @@ Click behavior:
 ### Commercial - Stores
 
 - Butique delicacy
+
+---
+
+## Revisions & Owner Feedback (2026-06-30)
+
+### Routing
+- Remove `/work/` URL prefix entirely. The project grid lives at `/` (home page).
+- Category pages: `/residential/`, `/commercial/`, `/graphic/`.
+- Project pages: `/<slug>/` (top-level, no `/work/` parent).
+
+### Opening Page / Splash
+- The typewriter "studio boja." animation is an overlay on top of the home grid (not a separate page).
+- The overlay fades out to reveal the grid beneath it.
+- It plays only once per browser session (stored in `sessionStorage`). Navigating back to `/` does not replay it.
+
+### Navigation
+- "studio boja." brand in the top left should be visually larger than the nav menu items (bigger font size, currently ~22px vs 13px for menu).
+- The brand words "studio" and "boja." are wrapped in separate `<span>` elements so the gap center can be measured and used as an alignment reference (see Subtitle Offset below).
+
+### Subtitle Offset (dynamic horizontal alignment)
+- On the home page, the subtitle "interior design" must NOT align with the main title "studio boja." (brand).
+- Instead, its left edge should start at the **horizontal midpoint of the gap** between the words "studio" and "boja." in the nav brand.
+- The same starting point applies to category-page titles and subtitles (e.g., "residential", "renovation").
+- This offset is measured dynamically via JavaScript on page load and resize, stored in the CSS variable `--subtitle-offset`.
+
+### Home Page Grid
+- Exactly **2 images per row** at all times.
+- The 2-column block is **centered horizontally** in the page (not left-aligned).
+- CSS grid: `grid-template-columns: repeat(2, 480px)`, `margin: 0 auto`.
+
+### Hover Behavior (Home + Category Grids)
+- On thumbnail hover, the **entire page background** changes to the combo background color (not just the thumbnail square).
+- The thumbnail image fades out, the project title appears in the combo text color.
+- The background returns to normal on mouse leave.
+- Body has `transition: background-color 0.35s ease` for smooth animation.
+
+### Project Page Layout
+- The left image column left edge aligns with the left edge of the home grid's first column (`--grid-left = calc((100vw - grid-width) / 2)`).
+- The description text column's left edge aligns with the **vertical centerline of the word "SERVICES"** in the navigation bar. This is measured dynamically via JavaScript and stored in `--services-center`.
+- The description text is **vertically centered** relative to the image column height.
+- Images of any size fill the fixed 770px column width (`width: 100%`); height is auto (natural aspect ratio).
+- All project pages start the first image at the same vertical position for visual consistency across projects.
+- The project title on the project page is displayed at `--font-size-title` (16px) and is **not** lowercased; it uses the title as written.
+
+### Full-Screen Image (Lightbox)
+- The navigation bar (studio boja. + WORK / SERVICES / ABOUT / CONTACT) **remains visible** at the top at all times.
+- The lightbox overlay starts below the nav (`top: var(--nav-height)`), not at the top of the viewport.
+- The description text is **removed** from the lightbox — the image expands to fill the available space.
+- The **project title** is kept below the image (styled with `--font-size-title`, bold).
+- Left/right navigation arrows remain for switching between project images.
+- Max image constraints: 1100px wide × 700px tall.
+
+### Services Page
+- All content (services grid) is **vertically centered** in the page area below the nav.
+- The nav header remains at the top (not fixed, but naturally first in the flow).
+
+### About Page
+- The image and text block are **vertically centered** in the page area below the nav.
+
+### Contact Page
+- The form and direct-contact details are **vertically centered** in the page area below the nav.
+
+### Project Title Capitalization
+Use exact capitalization as listed below (no `text-transform: lowercase` on project titles):
+- T40 Bathroom
+- CP9 Palma de Mallorca
+- D25
+- Franciamore
+- C163
+- VEGL
+- Azores
+- Elho offices
+- Butique delicacy
+
+### Sample / Placeholder Images
+- 5 sample images per project, varied heights (550–1000px), all 770px wide.
+- Sourced from `picsum.photos` with deterministic seeds per project.
+- Filenames: `01-sample.jpg` through `05-sample.jpg` (alphabetical = display order).
+
+### Best Practice: Dynamic Alignment via CSS Variables
+- Pixel-hardcoding nav-relative positions is fragile. Instead, a JavaScript measurement runs on `DOMContentLoaded` and `resize` to set:
+  - `--subtitle-offset`: X position of the gap center between "studio" and "boja." in the brand.
+  - `--services-center`: X position of the horizontal center of the SERVICES nav link.
+  - `--nav-height`: measured height of the nav element (used for lightbox top offset, vertical centering of page content).
+- CSS fallback defaults are set in `tokens.css` so the page renders correctly even before JS runs.

@@ -1,6 +1,6 @@
 # Adding a project to studio boja.
 
-You do **not** need to touch any code. Adding a project is two steps: make a folder, drop in your files.
+You do **not** need to touch any code. Adding a project is one step: create a folder and drop in your files.
 
 ## Step 1 — Create a folder
 
@@ -22,6 +22,7 @@ src/content/projects/d25/
   01-cover.jpg
   02.jpg
   03.jpg
+  index.md
 ```
 
 ## Step 3 — Add the text file
@@ -55,7 +56,7 @@ Commit and push the new folder to GitHub. The site rebuilds automatically and th
 project appears:
 - in the **home** grid,
 - in its **category** page (and the right sub-section),
-- on its own **project page** at `/work/d25/`.
+- on its own **project page** at `/d25/`.
 
 ## Removing or editing a project
 
@@ -63,3 +64,11 @@ project appears:
 - **Remove:** delete the folder and push.
 
 That's it — no code changes ever needed.
+
+## Shortcut: use the new-project script
+
+```bash
+npm run new d25
+```
+
+This creates the folder and a blank `index.md` template. Add your images and fill in the text file.

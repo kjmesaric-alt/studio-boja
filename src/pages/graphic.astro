@@ -1,0 +1,37 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectGrid from "../components/ProjectGrid.astro";
+
+const allProjects = await getCollection("projects");
+const projects = allProjects.filter((p) => p.data.category === "graphic");
+---
+
+<BaseLayout title="graphic design — studio boja.">
+  <main class="category-page">
+    <div class="category-page__header">
+      <p class="section-title">graphic</p>
+    </div>
+    <ProjectGrid projects={projects} />
+  </main>
+</BaseLayout>
+
+<style>
+  .category-page {
+    padding-bottom: 80px;
+  }
+
+  .category-page__header {
+    width: var(--grid-width);
+    margin: 0 auto;
+    padding: 16px 0;
+  }
+
+  .section-title {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    text-transform: lowercase;
+    color: var(--color-text-primary);
+  }
+</style>

@@ -1,6 +1,6 @@
 ---
 import Thumbnail from "./Thumbnail.astro";
-import { getProjectCover, getHoverCombo, entrySlug } from "../lib/projects";
+import { getProjectCover, entrySlug } from "../lib/projects";
 
 interface ProjectEntry {
   id: string;
@@ -12,34 +12,68 @@ interface ProjectEntry {
 
 interface Props {
   projects: ProjectEntry[];
+  startIndex?: number;
 }
 
-const { projects } = Astro.props;
+const { projects, startIndex = 0 } = Astro.props;
 
 const sorted = [...projects].sort((a, b) => a.data.order - b.data.order);
 ---
 
 <div class="project-grid">
   {
-    sorted.map((p) => {
+    sorted.map((p, i) => {
       const slug = entrySlug(p.id);
+      const hoverCombo = ((startIndex + i) % 6) + 1;
       return (
         <Thumbnail
           slug={slug}
           title={p.data.title}
           cover={getProjectCover(slug)}
-          hoverCombo={getHoverCombo(slug)}
+          hoverCombo={hoverCombo}
         />
       );
     })
   }
 </div>
 
+<script>
+  function bindThumbnailHover() {
+    const root = document.documentElement;
+    const thumbnails = document.querySelectorAll<HTMLElement>(".thumbnail");
+    const defaultBg = getComputedStyle(root).getPropertyValue("--color-bg").trim();
+    const defaultNavText = getComputedStyle(root).getPropertyValue("--color-text-nav").trim();
+
+    // A hover color set on the previous page can otherwise persist across
+    // a client-side navigation if the mouse left the thumbnail mid-transition.
+    root.style.setProperty("--page-bg", defaultBg);
+    root.style.setProperty("--page-nav-text", defaultNavText);
+
+    thumbnails.forEach((t) => {
+      const combo = t.dataset.hoverCombo;
+      t.addEventListener("mouseenter", () => {
+        root.style.setProperty("--page-bg", getComputedStyle(root).getPropertyValue(`--hover-bg-${combo}`).trim());
+        root.style.setProperty("--page-nav-text", getComputedStyle(root).getPropertyValue(`--hover-text-${combo}`).trim());
+      });
+      t.addEventListener("mouseleave", () => {
+        root.style.setProperty("--page-bg", defaultBg);
+        root.style.setProperty("--page-nav-text", defaultNavText);
+      });
+    });
+  }
+
+  // Re-bind on every navigation: Astro's client-side view transitions swap the
+  // page content without re-running this module, so a plain top-level call
+  // would only ever bind the very first page's thumbnails.
+  document.addEventListener("astro:page-load", bindThumbnailHover);
+</script>
+
 <style>
   .project-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, var(--thumb-w));
     gap: var(--grid-gap);
-    padding: 0 var(--page-side-padding);
+    width: var(--grid-width);
+    margin: 0 auto;
   }
 </style>

@@ -25,3 +25,13 @@ pnpm-debug.log*
 
 # owner to-do (local only)
 todo.md
+
+# personal AI tool settings and add-ons (local only)
+.claude/settings.local.json
+agent/
+.agents/
+skills-lock.json
+
+# editor / OneDrive leftovers
+*.swp
+.~lock.*

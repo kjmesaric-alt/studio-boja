@@ -1,5 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getProjectCover } from "../lib/projects";
+
+const aboutImage = getProjectCover("d25");
 ---
 
 <BaseLayout title="about — studio boja.">
@@ -7,7 +10,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="about-layout">
       <div class="about-image">
         <img
-          src="/images/placeholder.jpg"
+          src={aboutImage}
           alt="studio boja."
           loading="eager"
         />
@@ -42,7 +45,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <style>
   .about-page {
-    padding: 40px 0 80px;
+    min-height: calc(100vh - var(--nav-height, 80px));
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .about-layout {

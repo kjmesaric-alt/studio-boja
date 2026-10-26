@@ -1,42 +1,63 @@
 ---
 // Pure client-side component; no props needed.
-// The text and redirect are handled entirely in the <script>.
+// Plays once per session (guarded by sessionStorage), then fades out.
 ---
 
-<div class="splash" id="splash">
-  <span class="splash__text" id="splash-text" aria-label="studio boja."></span>
+<div class="splash" id="splash" aria-hidden="true">
+  <span class="splash__text" id="splash-text"></span>
 </div>
 
-<script>
-  const FULL_TEXT = "studio boja.";
-  const CHAR_DELAY = 90;   // ms between characters
-  const HOLD_DURATION = 800; // ms to hold after last character
-  const FADE_DURATION = 600; // ms for the fade-out
+<script is:inline>
+  (function () {
+    var SPLASH_KEY = "boja-splash-seen";
+    var FULL_TEXT = "studio boja.";
+    var CHAR_DELAY = 90;
+    var HOLD_DURATION = 800;
+    var FADE_DURATION = 600;
 
-  const el = document.getElementById("splash-text")!;
-  const splash = document.getElementById("splash")!;
+    // Bind to astro:page-load rather than running immediately: Astro's client-side
+    // view transitions dedupe identical inline scripts across navigations, so a
+    // top-level call here would only ever fire on the very first page load. Landing
+    // back on the home page later would then leave this splash div stuck on screen
+    // (fully opaque, blocking every click) with nothing left to remove it.
+    function initSplash() {
+      var splash = document.getElementById("splash");
+      var el = document.getElementById("splash-text");
+      if (!splash || !el) return;
 
-  let i = 0;
+      if (sessionStorage.getItem(SPLASH_KEY)) {
+        splash.remove();
+        return;
+      }
 
-  function type() {
-    if (i <= FULL_TEXT.length) {
-      el.textContent = FULL_TEXT.slice(0, i);
-      i++;
-      setTimeout(type, CHAR_DELAY);
-    } else {
-      setTimeout(fadeOut, HOLD_DURATION);
+      document.body.style.overflow = "hidden";
+      var i = 0;
+
+      function type() {
+        if (i <= FULL_TEXT.length) {
+          el.textContent = FULL_TEXT.slice(0, i);
+          i++;
+          setTimeout(type, CHAR_DELAY);
+        } else {
+          setTimeout(fadeOut, HOLD_DURATION);
+        }
+      }
+
+      function fadeOut() {
+        splash.style.transition = "opacity " + FADE_DURATION + "ms ease";
+        splash.style.opacity = "0";
+        setTimeout(function () {
+          splash.remove();
+          document.body.style.overflow = "";
+          sessionStorage.setItem(SPLASH_KEY, "1");
+        }, FADE_DURATION);
+      }
+
+      type();
     }
-  }
 
-  function fadeOut() {
-    splash.style.transition = `opacity ${FADE_DURATION}ms ease`;
-    splash.style.opacity = "0";
-    setTimeout(() => {
-      window.location.href = "/work/";
-    }, FADE_DURATION);
-  }
-
-  type();
+    document.addEventListener("astro:page-load", initSplash);
+  })();
 </script>
 
 <style>
@@ -48,13 +69,12 @@
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    opacity: 1;
   }
 
   .splash__text {
     font-family: var(--font-family);
-    font-size: 28px;
-    font-weight: 400;
+    font-size: 40px;
+    font-weight: 700;
     letter-spacing: var(--nav-name-letter-spacing);
     text-transform: lowercase;
     color: var(--color-text-nav);

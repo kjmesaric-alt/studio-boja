@@ -1,31 +1,30 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-// TODO: Replace placeholder services with real names, images, and descriptions.
 const services = [
   {
-    title: "residential design",
+    title: "INTERIOR DESIGN",
     description:
-      "Placeholder description for residential design services. Replace with the real service description.",
-    image: "/images/placeholder.jpg",
+      "Full service interior design for residential and commercial spaces. From initial concept to final installation, with different levels of involvement depending on what the project needs. Either focusing on concept creation, a complete spatial plan with technical drawings and furniture procurement, or full project management from start to finish. Get in touch and we'll find the right fit.",
+    image: "/services/interiordesign.svg",
   },
   {
-    title: "commercial design",
+    title: "PRE PURCHASE CONSULTATION",
     description:
-      "Placeholder description for commercial design services. Replace with the real service description.",
-    image: "/images/placeholder.jpg",
+      "Support for when you're considering buying a renovation property. We look at floor plans to understand what's possible, from minor layout changes to complete restructuring in order to create more rooms. We'll give you a clear sense of what works, what doesn't, and where the real potential sits. It's about making confident decisions before you commit.",
+    image: "/services/realestate.svg",
   },
   {
-    title: "graphic design",
+    title: "CONSULTATION",
     description:
-      "Placeholder description for graphic design services. Replace with the real service description.",
-    image: "/images/placeholder.jpg",
+      "Short, focused sessions to help you move forward. Bring your questions, whether it's layout, materials, or a part of your space where something's off. You get direct, honest input and clear next steps. Simple, practical, and to the point.",
+    image: "/services/consult.svg",
   },
   {
-    title: "consultancy",
+    title: "SECOND HAND FURNITURE SOURCING",
     description:
-      "Placeholder description for consultancy services. Replace with the real service description.",
-    image: "/images/placeholder.jpg",
+      "Based on your space, studio boja. sources items that fit both function and feel. We scout for the right pieces through secondhand markets, vintage shops and unexpected places. It's a more thoughtful, sustainable approach that brings one of a kind pieces full of history.",
+    image: "/services/furniture.svg",
   },
 ];
 ---
@@ -42,7 +41,10 @@ const services = [
               alt={s.title}
               loading="lazy"
             />
-            <p class="service__description">{s.description}</p>
+            <p class="service__description">
+              <span class="service__title">{s.title}</span>
+              {" " + s.description}
+            </p>
           </div>
         ))
       }
@@ -52,7 +54,10 @@ const services = [
 
 <style>
   .services-page {
-    padding: 40px 0 80px;
+    min-height: calc(100vh - var(--nav-height, 80px));
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .services-grid {
@@ -72,7 +77,7 @@ const services = [
   .service__img {
     width: 100%;
     aspect-ratio: 480 / 500;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   .service__description {
@@ -80,7 +85,10 @@ const services = [
     font-size: var(--font-size-base);
     font-weight: 400;
     line-height: 1.6;
-    text-transform: lowercase;
     color: var(--color-text-primary);
+  }
+
+  .service__title {
+    font-weight: 500;
   }
 </style>

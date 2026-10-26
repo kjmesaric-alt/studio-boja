@@ -1,41 +1,50 @@
 ---
 const currentPath = Astro.url.pathname;
+const isWorkActive =
+  currentPath === "/" ||
+  currentPath.startsWith("/residential/") ||
+  currentPath.startsWith("/commercial/") ||
+  currentPath.startsWith("/graphic/");
 ---
 
-<nav class="nav">
-  <a class="nav__name" href="/work/">studio boja.</a>
+<nav class="nav" transition:persist>
+  <a class="nav__name" href="/">
+    <span id="nav-word-studio">studio</span> <span id="nav-word-boja">boja.</span>
+  </a>
 
   <ul class="nav__menu" role="list">
     <li class="nav__item nav__item--dropdown">
       <a
-        class:list={["nav__link", { "nav__link--active": currentPath.startsWith("/work/") }]}
-        href="/work/"
+        class:list={["nav__link", { "nav__link--active": isWorkActive }]}
+        href="/"
         aria-haspopup="true"
         aria-expanded="false"
         id="work-menu-btn"
       >WORK</a>
       <ul class="nav__dropdown" role="list" aria-labelledby="work-menu-btn">
-        <li><a class="nav__dropdown-link" href="/work/residential/">residential</a></li>
-        <li><a class="nav__dropdown-link" href="/work/commercial/">commercial</a></li>
-        <li><a class="nav__dropdown-link" href="/work/graphic/">graphic design</a></li>
+        <li><a class="nav__dropdown-link" href="/residential/">residential</a></li>
+        <li><a class="nav__dropdown-link" href="/commercial/">commercial</a></li>
+        <li><a class="nav__dropdown-link" href="/graphic/">graphic design</a></li>
       </ul>
     </li>
     <li class="nav__item">
       <a
-        class:list={["nav__link", { "nav__link--active": currentPath.startsWith("/services/") }]}
+        class:list={["nav__link", { "nav__link--active": currentPath.startsWith("/services") }]}
         href="/services/"
+        id="nav-services-link"
       >SERVICES</a>
     </li>
     <li class="nav__item">
       <a
-        class:list={["nav__link", { "nav__link--active": currentPath.startsWith("/about/") }]}
+        class:list={["nav__link", { "nav__link--active": currentPath.startsWith("/about") }]}
         href="/about/"
       >ABOUT</a>
     </li>
     <li class="nav__item">
       <a
-        class:list={["nav__link", { "nav__link--active": currentPath.startsWith("/contact/") }]}
+        class:list={["nav__link", { "nav__link--active": currentPath.startsWith("/contact") }]}
         href="/contact/"
+        id="nav-contact-link"
       >CONTACT</a>
     </li>
   </ul>
@@ -47,24 +56,27 @@ const currentPath = Astro.url.pathname;
     align-items: baseline;
     justify-content: space-between;
     padding: 32px var(--page-side-padding);
-    background-color: var(--color-bg);
-    position: relative;
+    background-color: var(--page-bg, var(--color-bg));
+    transition: background-color 0.35s ease;
+    position: sticky;
+    top: 0;
     z-index: 100;
   }
 
   .nav__name {
     font-family: var(--font-family);
-    font-size: var(--font-size-base);
-    font-weight: 400;
+    font-size: var(--font-size-brand);
+    font-weight: 700;
     letter-spacing: var(--nav-name-letter-spacing);
     text-transform: lowercase;
-    color: var(--color-text-nav);
+    color: var(--page-nav-text, var(--color-text-nav));
+    transition: color 0.35s ease;
   }
 
   .nav__menu {
     display: flex;
     align-items: baseline;
-    gap: 48px;
+    gap: 78px;
     list-style: none;
   }
 
@@ -78,7 +90,8 @@ const currentPath = Astro.url.pathname;
     font-weight: 400;
     letter-spacing: var(--nav-menu-letter-spacing);
     text-transform: uppercase;
-    color: var(--color-text-nav);
+    color: var(--page-nav-text, var(--color-text-nav));
+    transition: color 0.35s ease;
   }
 
   .nav__dropdown {

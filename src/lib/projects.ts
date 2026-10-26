@@ -1,29 +1,21 @@
-/**
- * Returns the sorted list of image paths for a given project slug.
- * Images live in public/projects/<slug>/ and are served as /projects/<slug>/<file>.
- *
- * We use import.meta.glob to collect all project images at build time, then
- * filter to the requested slug.
- */
-
-// Glob all images under public/projects/**
-// Keys are like: /public/projects/cp9-palma-de-mallorca/01-cover.jpg
-const allImages = import.meta.glob<{ default: string }>(
-  "/public/projects/**/*.{jpg,jpeg,png,webp,avif,gif,svg}",
-  { eager: true }
+// Glob all images under src/content/projects/**
+// Using ?url to get resolved asset URLs (dev: direct path, prod: hashed)
+const allImages = import.meta.glob<string>(
+  "/src/content/projects/**/*.{jpg,jpeg,png,webp,avif,gif,svg}",
+  { eager: true, query: "?url", import: "default" }
 );
 
-/** Derive the URL slug from a content entry id (strips the .md extension). */
+/** Derive the URL slug from a content entry id (e.g. "d25/index.md" → "d25"). */
 export function entrySlug(id: string): string {
-  return id.replace(/\.md$/, "");
+  return id.replace(/\/index(\.md)?$/, "").replace(/\.md$/, "");
 }
 
 export function getProjectImages(slug: string): string[] {
-  const prefix = `/public/projects/${slug}/`;
+  const prefix = `/src/content/projects/${slug}/`;
   return Object.keys(allImages)
     .filter((k) => k.startsWith(prefix))
     .sort()
-    .map((k) => k.replace("/public", "")); // → /projects/<slug>/file.jpg
+    .map((k) => allImages[k]);
 }
 
 export function getProjectCover(slug: string): string {

@@ -17,32 +17,38 @@
 :root {
   /* ── Background ─────────────────────────────────── */
   --color-bg: #f5f5f5;
+  --page-bg: var(--color-bg);
 
   /* ── Text ───────────────────────────────────────── */
   /* TODO: replace with the primary text colour once provided */
   --color-text-primary: #1a1a1a;
   /* Nav: studio name + menu items, splash text */
   --color-text-nav: #741f19;
+  --color-accent-soft: #af655f;
 
   /* ── Arrows (project gallery / lightbox) ────────── */
   --color-arrow: #b3b3b3;
 
-  /* ── Hover colour combos (5 pairs) ─────────────── */
-  /* TODO: replace each BG/text pair once the owner provides them */
-  --hover-bg-1: #e8e0d8;
-  --hover-text-1: #3a2a20;
+  /* ── Hover colour combos (6 pairs) ───────────────
+     Each pair is reversible: the two colours in a column swap
+     bg/text roles between the two combos built from them. */
+  --hover-bg-1: #37121a; /* plum */
+  --hover-text-1: #97a3a3; /* dusty blue */
 
-  --hover-bg-2: #d8e0e8;
-  --hover-text-2: #1a2a3a;
+  --hover-bg-2: #97a3a3; /* dusty blue */
+  --hover-text-2: #37121a; /* plum */
 
-  --hover-bg-3: #e8e8d8;
-  --hover-text-3: #2a3a1a;
+  --hover-bg-3: #a39670; /* tan */
+  --hover-text-3: #520602; /* cordovan */
 
-  --hover-bg-4: #e8d8e0;
-  --hover-text-4: #3a1a2a;
+  --hover-bg-4: #520602; /* cordovan */
+  --hover-text-4: #a39670; /* tan */
 
-  --hover-bg-5: #d8e8e0;
-  --hover-text-5: #1a3a2a;
+  --hover-bg-5: #847949; /* olive */
+  --hover-text-5: #e6ddcf; /* light cream */
+
+  --hover-bg-6: #e6ddcf; /* light cream */
+  --hover-text-6: #847949; /* olive */
 
   /* ── Image sizing ───────────────────────────────── */
   --thumb-w: 480px;
@@ -59,7 +65,19 @@
   /* menu items: 0% letter-spacing */
   --nav-menu-letter-spacing: 0em;
 
+  /* ── Typography — sizes ─────────────────────────── */
+  --font-size-brand: 22px;     /* "studio boja." nav brand */
+  --font-size-title: 16px;     /* project/section titles */
+
   /* ── Layout ─────────────────────────────────────── */
-  --grid-gap: 24px;
+  --grid-gap: 52px;
   --page-side-padding: 80px;
+  --nav-height: 80px;           /* fallback; overridden by JS */
+  --grid-width: calc(2 * var(--thumb-w) + var(--grid-gap));
+  --grid-left: calc((100vw - var(--grid-width)) / 2);
+
+  /* ── Dynamic nav offsets (set by JS in BaseLayout) ─ */
+  --subtitle-offset: var(--page-side-padding);
+  --services-center: 60vw;
+  --contact-right: 84vw;
 }

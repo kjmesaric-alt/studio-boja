@@ -11,13 +11,21 @@
 html {
   font-family: var(--font-family);
   font-size: var(--font-size-base);
-  background-color: var(--color-bg);
+  background-color: var(--page-bg, var(--color-bg));
+  transition: background-color 0.35s ease;
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 body {
   min-height: 100vh;
+  background-color: var(--page-bg, var(--color-bg));
+  transition: background-color 0.35s ease;
 }
 
 a {

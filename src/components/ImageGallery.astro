@@ -2,6 +2,7 @@
 interface Props {
   images: string[];
   title: string;
+  slug: string;
 }
 
 const { images, title } = Astro.props;
@@ -12,8 +13,9 @@ const { images, title } = Astro.props;
     images.map((src, i) => (
       <button
         class="gallery__item"
-        aria-label={`Open ${title} image ${i + 1} in full view`}
+        aria-label={`View ${title} image ${i + 1}`}
         data-index={i}
+        type="button"
       >
         <img src={src} alt={`${title} — image ${i + 1}`} loading={i === 0 ? "eager" : "lazy"} />
       </button>
@@ -21,104 +23,128 @@ const { images, title } = Astro.props;
   }
 </div>
 
-<!-- Lightbox overlay -->
-<div
-  class="lightbox"
-  id="lightbox"
-  role="dialog"
-  aria-modal="true"
-  aria-label="Image viewer"
-  hidden
->
-  <button class="lightbox__close" id="lightbox-close" aria-label="Close">✕</button>
-  <button class="lightbox__arrow lightbox__arrow--left" id="lightbox-prev" aria-label="Previous image" hidden>&#8249;</button>
-  <div class="lightbox__stage">
-    <img class="lightbox__img" id="lightbox-img" src="" alt="" />
-    <p class="lightbox__caption" id="lightbox-caption"></p>
+<!-- Overlay: covers viewport below nav; nav bar remains visible above -->
+<div class="gallery-overlay" id="gallery-overlay" aria-modal="true" aria-hidden="true">
+  <button class="gallery-overlay__arrow" id="overlay-prev" aria-label="Previous image" type="button">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <polyline points="15,5 8,12 15,19" />
+    </svg>
+  </button>
+  <div class="gallery-overlay__stage">
+    <img class="gallery-overlay__img" id="overlay-img" src="" alt="" />
   </div>
-  <button class="lightbox__arrow lightbox__arrow--right" id="lightbox-next" aria-label="Next image">&#8250;</button>
+  <button class="gallery-overlay__arrow" id="overlay-next" aria-label="Next image" type="button">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <polyline points="9,5 16,12 9,19" />
+    </svg>
+  </button>
 </div>
 
 <script define:vars={{ images, title }}>
-  const gallery = document.getElementById("project-gallery");
-  const lightbox = document.getElementById("lightbox");
-  const lbImg = document.getElementById("lightbox-img");
-  const lbCaption = document.getElementById("lightbox-caption");
-  const lbClose = document.getElementById("lightbox-close");
-  const lbPrev = document.getElementById("lightbox-prev");
-  const lbNext = document.getElementById("lightbox-next");
+  const overlay = document.getElementById("gallery-overlay");
+  const overlayImg = document.getElementById("overlay-img");
+  const overlayPrev = document.getElementById("overlay-prev");
+  const overlayNext = document.getElementById("overlay-next");
+  const galleryItems = Array.from(document.querySelectorAll(".gallery__item[data-index]"));
 
-  let current = 0;
+  let currentIndex = 0;
 
-  function openLightbox(index) {
-    current = index;
-    render();
-    lightbox.hidden = false;
-    document.body.style.overflow = "hidden";
-    lbClose.focus();
+  function updateArrows() {
+    overlayPrev.style.visibility = currentIndex > 0 ? "visible" : "hidden";
+    overlayNext.style.visibility = currentIndex < images.length - 1 ? "visible" : "hidden";
   }
 
-  function closeLightbox() {
-    lightbox.hidden = true;
+  function openOverlay(index) {
+    currentIndex = index;
+    overlayImg.src = images[currentIndex];
+    overlayImg.alt = `${title} \u2014 image ${currentIndex + 1}`;
+    overlay.removeAttribute("aria-hidden");
+    overlay.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+    updateArrows();
+  }
+
+  function closeOverlay() {
+    overlay.classList.remove("is-open");
+    overlay.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
   }
 
-  function render() {
-    lbImg.src = images[current];
-    lbImg.alt = `${title} — image ${current + 1}`;
-    lbCaption.textContent = title;
-    lbPrev.hidden = current === 0;
-    lbNext.hidden = current === images.length - 1;
+  function navigateTo(index) {
+    if (index < 0 || index >= images.length) return;
+    currentIndex = index;
+    overlayImg.src = images[currentIndex];
+    overlayImg.alt = `${title} \u2014 image ${currentIndex + 1}`;
+    updateArrows();
   }
 
-  gallery.addEventListener("click", (e) => {
-    const btn = e.target.closest(".gallery__item");
-    if (!btn) return;
-    openLightbox(Number(btn.dataset.index));
+  galleryItems.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      openOverlay(parseInt(btn.dataset.index, 10));
+    });
   });
 
-  lbClose.addEventListener("click", closeLightbox);
-
-  lbPrev.addEventListener("click", () => {
-    if (current > 0) { current--; render(); }
+  overlayPrev.addEventListener("click", (e) => {
+    e.stopPropagation();
+    navigateTo(currentIndex - 1);
   });
 
-  lbNext.addEventListener("click", () => {
-    if (current < images.length - 1) { current++; render(); }
+  overlayNext.addEventListener("click", (e) => {
+    e.stopPropagation();
+    navigateTo(currentIndex + 1);
   });
 
-  lightbox.addEventListener("click", (e) => {
-    if (e.target === lightbox) closeLightbox();
+  overlay.addEventListener("click", (e) => {
+    if (e.target.closest(".gallery-overlay__img")) return;
+    if (e.target.closest(".gallery-overlay__arrow")) return;
+    closeOverlay();
   });
 
   document.addEventListener("keydown", (e) => {
-    if (lightbox.hidden) return;
-    if (e.key === "Escape") closeLightbox();
-    if (e.key === "ArrowLeft" && current > 0) { current--; render(); }
-    if (e.key === "ArrowRight" && current < images.length - 1) { current++; render(); }
+    if (!overlay.classList.contains("is-open")) return;
+    if (e.key === "Escape") { e.preventDefault(); closeOverlay(); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); navigateTo(currentIndex - 1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); navigateTo(currentIndex + 1); }
   });
+
+  // Center first image at same vertical midpoint as the sticky info column (50vh)
+  const firstImg = document.querySelector("#project-gallery .gallery__item img");
+  if (firstImg) {
+    function updateGalleryCentering() {
+      const gallery = document.getElementById("project-gallery");
+      if (!gallery) return;
+      const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-height")) || 80;
+      const imgH = firstImg.offsetHeight;
+      const topPad = Math.max(0, (window.innerHeight - navH - imgH) / 2);
+      gallery.style.paddingTop = topPad + "px";
+    }
+    if (firstImg.complete && firstImg.naturalHeight > 0) {
+      updateGalleryCentering();
+    } else {
+      firstImg.addEventListener("load", updateGalleryCentering, { once: true });
+    }
+    window.addEventListener("resize", updateGalleryCentering);
+  }
 </script>
 
 <style>
   .gallery {
-    max-width: var(--project-img-max-w);
+    width: clamp(320px, 34vw, 480px);
     display: flex;
     flex-direction: column;
     gap: var(--grid-gap);
-    overflow-y: auto;
-    max-height: calc(100vh - 120px);
-    scrollbar-width: none;
-  }
-
-  .gallery::-webkit-scrollbar {
-    display: none;
+    padding-bottom: 40px;
   }
 
   .gallery__item {
-    cursor: zoom-in;
+    cursor: pointer;
     display: block;
     width: 100%;
     flex-shrink: 0;
+    background: none;
+    border: none;
+    padding: 0;
+    text-align: left;
   }
 
   .gallery__item img {
@@ -127,70 +153,65 @@ const { images, title } = Astro.props;
     display: block;
   }
 
-  /* ── Lightbox ── */
-  .lightbox {
+  /* Overlay: starts below nav, covers rest of viewport */
+  .gallery-overlay {
+    display: none;
     position: fixed;
-    inset: 0;
-    background: rgba(245, 245, 245, 0.96);
+    top: var(--nav-height, 80px);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-bg);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 32px var(--page-side-padding);
+  }
+
+  .gallery-overlay.is-open {
+    display: flex;
+  }
+
+  .gallery-overlay__stage {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
-    gap: 24px;
-    padding: 80px 40px 40px;
-  }
-
-  .lightbox[hidden] {
-    display: none;
-  }
-
-  .lightbox__close {
-    position: absolute;
-    top: 24px;
-    right: 40px;
-    font-size: 20px;
-    color: var(--color-text-primary);
-    cursor: pointer;
-    line-height: 1;
-  }
-
-  .lightbox__stage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
+    min-width: 0;
     max-width: var(--lightbox-max-w);
   }
 
-  .lightbox__img {
-    max-width: var(--lightbox-max-w);
-    max-height: var(--lightbox-max-h);
-    object-fit: contain;
-    width: 100%;
+  .gallery-overlay__img {
+    max-width: 100%;
+    max-height: calc(100vh - var(--nav-height, 80px) - 64px);
+    width: auto;
     height: auto;
+    object-fit: contain;
+    display: block;
   }
 
-  .lightbox__caption {
-    font-family: var(--font-family);
-    font-size: var(--font-size-base);
-    font-weight: 400;
-    text-transform: lowercase;
-    color: var(--color-text-primary);
-    align-self: flex-start;
-  }
-
-  .lightbox__arrow {
-    font-size: 40px;
-    color: var(--color-arrow);
-    cursor: pointer;
-    user-select: none;
-    line-height: 1;
-    padding: 8px;
+  .gallery-overlay__arrow {
     flex-shrink: 0;
+    color: var(--color-text-nav);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
   }
 
-  .lightbox__arrow[hidden] {
-    visibility: hidden;
-    pointer-events: none;
+  .gallery-overlay__arrow svg {
+    width: 28px;
+    height: 28px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 </style>

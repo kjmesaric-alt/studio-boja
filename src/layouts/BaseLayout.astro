@@ -1,13 +1,16 @@
 ---
 import "../styles/global.css";
 import Nav from "../components/Nav.astro";
+import Typewriter from "../components/Typewriter.astro";
+import { ClientRouter } from "astro:transitions";
 
 interface Props {
   title?: string;
   showNav?: boolean;
+  showSplash?: boolean;
 }
 
-const { title = "studio boja.", showNav = true } = Astro.props;
+const { title = "studio boja.", showNav = true, showSplash = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -18,9 +21,49 @@ const { title = "studio boja.", showNav = true } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ClientRouter />
   </head>
   <body>
+    {showSplash && <Typewriter />}
     {showNav && <Nav />}
     <slot />
   </body>
 </html>
+
+<script>
+  function measureNav() {
+    const studio = document.getElementById("nav-word-studio");
+    const boja = document.getElementById("nav-word-boja");
+    const servicesLink = document.getElementById("nav-services-link");
+    const contactLink = document.getElementById("nav-contact-link");
+    const nav = document.querySelector("nav.nav") as HTMLElement | null;
+
+    if (studio && boja) {
+      const studioRect = studio.getBoundingClientRect();
+      const bojaRect = boja.getBoundingClientRect();
+      const gapCenter = (studioRect.right + bojaRect.left) / 2;
+      document.documentElement.style.setProperty("--subtitle-offset", gapCenter + "px");
+    }
+
+    if (servicesLink) {
+      const r = servicesLink.getBoundingClientRect();
+      const center = (r.left + r.right) / 2;
+      document.documentElement.style.setProperty("--services-center", center + "px");
+    }
+
+    if (contactLink) {
+      const r = contactLink.getBoundingClientRect();
+      document.documentElement.style.setProperty("--contact-right", r.right + "px");
+    }
+
+    if (nav) {
+      document.documentElement.style.setProperty(
+        "--nav-height",
+        nav.getBoundingClientRect().height + "px"
+      );
+    }
+  }
+
+  document.addEventListener("astro:page-load", measureNav);
+  window.addEventListener("resize", measureNav);
+</script>
