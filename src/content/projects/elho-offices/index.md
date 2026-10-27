@@ -2,7 +2,7 @@
 title: "Elho offices"
 category: "commercial"
 subcategory: "offices"
-order: 1
+order: 2
 ---
 
 A short description of the project, to be filled in.

@@ -2,7 +2,7 @@
 title: "CP9 Palma de Mallorca"
 category: "residential"
 subcategory: "renovation"
-order: 2
+order: 7
 ---
 
 A short description of the project, to be filled in.

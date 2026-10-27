@@ -17,7 +17,8 @@ interface Props {
 
 const { projects, startIndex = 0 } = Astro.props;
 
-const sorted = [...projects].sort((a, b) => a.data.order - b.data.order);
+// Newest first: higher order numbers (and projects with no number) at the top
+const sorted = [...projects].sort((a, b) => b.data.order - a.data.order);
 ---
 
 <div class="project-grid">
@@ -42,12 +43,12 @@ const sorted = [...projects].sort((a, b) => a.data.order - b.data.order);
     const root = document.documentElement;
     const thumbnails = document.querySelectorAll<HTMLElement>(".thumbnail");
     const defaultBg = getComputedStyle(root).getPropertyValue("--color-bg").trim();
-    const defaultNavText = getComputedStyle(root).getPropertyValue("--color-text-nav").trim();
 
     // A hover color set on the previous page can otherwise persist across
     // a client-side navigation if the mouse left the thumbnail mid-transition.
     root.style.setProperty("--page-bg", defaultBg);
-    root.style.setProperty("--page-nav-text", defaultNavText);
+    // Removing the override lets the nav fall back to its default colour.
+    root.style.removeProperty("--page-nav-text");
 
     thumbnails.forEach((t) => {
       const combo = t.dataset.hoverCombo;
@@ -57,7 +58,7 @@ const sorted = [...projects].sort((a, b) => a.data.order - b.data.order);
       });
       t.addEventListener("mouseleave", () => {
         root.style.setProperty("--page-bg", defaultBg);
-        root.style.setProperty("--page-nav-text", defaultNavText);
+        root.style.removeProperty("--page-nav-text");
       });
     });
   }

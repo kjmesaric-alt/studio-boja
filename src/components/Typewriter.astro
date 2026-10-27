@@ -11,6 +11,7 @@
   (function () {
     var SPLASH_KEY = "boja-splash-seen";
     var FULL_TEXT = "studio boja.";
+    var START_DELAY = 500; // pause after the page appears, before typing begins
     var CHAR_DELAY = 90;
     var HOLD_DURATION = 800;
     var FADE_DURATION = 600;
@@ -53,7 +54,7 @@
         }, FADE_DURATION);
       }
 
-      type();
+      setTimeout(type, START_DELAY);
     }
 
     document.addEventListener("astro:page-load", initSplash);
@@ -73,7 +74,8 @@
 
   .splash__text {
     font-family: var(--font-family);
-    font-size: 40px;
+    /* 92px on large screens, scales down on narrow ones so it never overflows */
+    font-size: min(92px, 10vw);
     font-weight: 700;
     letter-spacing: var(--nav-name-letter-spacing);
     text-transform: lowercase;

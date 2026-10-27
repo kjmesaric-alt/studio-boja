@@ -4,24 +4,28 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const services = [
   {
     title: "INTERIOR DESIGN",
+    subtitle: "Full service interior design for residential and commercial spaces.",
     description:
-      "Full service interior design for residential and commercial spaces. From initial concept to final installation, with different levels of involvement depending on what the project needs. Either focusing on concept creation, a complete spatial plan with technical drawings and furniture procurement, or full project management from start to finish. Get in touch and we'll find the right fit.",
+      "From initial concept to final installation, with different levels of involvement depending on what the project needs. Either focusing on concept creation, a complete spatial plan with technical drawings and furniture procurement, or full project management from start to finish. Get in touch and we'll find the right fit.",
     image: "/services/interiordesign.svg",
   },
   {
     title: "PRE PURCHASE CONSULTATION",
+    subtitle: "Support for when you're considering buying a renovation property.",
     description:
-      "Support for when you're considering buying a renovation property. We look at floor plans to understand what's possible, from minor layout changes to complete restructuring in order to create more rooms. We'll give you a clear sense of what works, what doesn't, and where the real potential sits. It's about making confident decisions before you commit.",
+      "We look at floor plans to understand what's possible, from minor layout changes to complete restructuring in order to create more rooms. We'll give you a clear sense of what works, what doesn't, and where the real potential sits. It's about making confident decisions before you commit.",
     image: "/services/realestate.svg",
   },
   {
     title: "CONSULTATION",
+    subtitle: "Short, focused advice for when you're stuck on parts of your space.",
     description:
       "Short, focused sessions to help you move forward. Bring your questions, whether it's layout, materials, or a part of your space where something's off. You get direct, honest input and clear next steps. Simple, practical, and to the point.",
     image: "/services/consult.svg",
   },
   {
     title: "SECOND HAND FURNITURE SOURCING",
+    subtitle: "Vintage and secondhand pieces, curated to fit your space and how you live.",
     description:
       "Based on your space, studio boja. sources items that fit both function and feel. We scout for the right pieces through secondhand markets, vintage shops and unexpected places. It's a more thoughtful, sustainable approach that brings one of a kind pieces full of history.",
     image: "/services/furniture.svg",
@@ -41,10 +45,9 @@ const services = [
               alt={s.title}
               loading="lazy"
             />
-            <p class="service__description">
-              <span class="service__title">{s.title}</span>
-              {" " + s.description}
-            </p>
+            <h2 class="service__title">{s.title}</h2>
+            <p class="service__subtitle">{s.subtitle}</p>
+            <p class="service__description">{s.description}</p>
           </div>
         ))
       }
@@ -62,8 +65,9 @@ const services = [
 
   .services-grid {
     display: flex;
-    gap: var(--grid-gap);
-    padding: 0 var(--page-side-padding);
+    gap: 44px;
+    /* wider side margins on large screens, never less than the usual page padding */
+    padding: 0 clamp(var(--page-side-padding), 13vw, 240px);
     align-items: flex-start;
   }
 
@@ -71,24 +75,32 @@ const services = [
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    line-height: 1.4;
+    color: var(--color-text-primary);
   }
 
   .service__img {
     width: 100%;
     aspect-ratio: 480 / 500;
     object-fit: contain;
-  }
-
-  .service__description {
-    font-family: var(--font-family);
-    font-size: var(--font-size-base);
-    font-weight: 400;
-    line-height: 1.6;
-    color: var(--color-text-primary);
+    margin-bottom: 32px;
   }
 
   .service__title {
-    font-weight: 500;
+    font-size: inherit;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .service__subtitle {
+    font-style: italic;
+    margin-bottom: 18px;
+  }
+
+  .service__description {
+    font-weight: 400;
   }
 </style>

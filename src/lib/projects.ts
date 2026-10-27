@@ -10,15 +10,25 @@ export function entrySlug(id: string): string {
   return id.replace(/\/index(\.md)?$/, "").replace(/\.md$/, "");
 }
 
-export function getProjectImages(slug: string): string[] {
+// A file named "thumbnail.<ext>" is used only as the grid cover, not in the gallery
+const isThumbnail = (k: string) => /\/thumbnail\.[^/]+$/i.test(k);
+
+function projectKeys(slug: string): string[] {
   const prefix = `/src/content/projects/${slug}/`;
   return Object.keys(allImages)
     .filter((k) => k.startsWith(prefix))
-    .sort()
+    .sort();
+}
+
+export function getProjectImages(slug: string): string[] {
+  return projectKeys(slug)
+    .filter((k) => !isThumbnail(k))
     .map((k) => allImages[k]);
 }
 
 export function getProjectCover(slug: string): string {
+  const thumb = projectKeys(slug).find(isThumbnail);
+  if (thumb) return allImages[thumb];
   const images = getProjectImages(slug);
   return images[0] ?? "/images/placeholder.svg";
 }

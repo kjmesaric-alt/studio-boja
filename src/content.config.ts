@@ -9,7 +9,8 @@ const projects = defineCollection({
     subcategory: z
       .enum(["renovation", "hospitality", "offices", "stores", ""])
       .default(""),
-    order: z.number().optional().default(99),
+    // Higher numbers appear first; a project without a number goes to the very top
+    order: z.number().optional().default(Number.MAX_SAFE_INTEGER),
   }),
 });
 

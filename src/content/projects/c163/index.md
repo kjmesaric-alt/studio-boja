@@ -2,7 +2,7 @@
 title: "C163"
 category: "residential"
 subcategory: "renovation"
-order: 5
+order: 6
 ---
 
 A short description of the project, to be filled in.

@@ -16,7 +16,7 @@
 
 :root {
   /* ── Background ─────────────────────────────────── */
-  --color-bg: #f5f5f5;
+  --color-bg: #e6e3df;
   --page-bg: var(--color-bg);
 
   /* ── Text ───────────────────────────────────────── */
@@ -32,11 +32,11 @@
   /* ── Hover colour combos (6 pairs) ───────────────
      Each pair is reversible: the two colours in a column swap
      bg/text roles between the two combos built from them. */
-  --hover-bg-1: #37121a; /* plum */
-  --hover-text-1: #97a3a3; /* dusty blue */
+  --hover-bg-1: #847949; /* olive */
+  --hover-text-1: #e6ddcf; /* light cream */
 
-  --hover-bg-2: #97a3a3; /* dusty blue */
-  --hover-text-2: #37121a; /* plum */
+  --hover-bg-2: #e6ddcf; /* light cream */
+  --hover-text-2: #847949; /* olive */
 
   --hover-bg-3: #a39670; /* tan */
   --hover-text-3: #520602; /* cordovan */
@@ -44,11 +44,11 @@
   --hover-bg-4: #520602; /* cordovan */
   --hover-text-4: #a39670; /* tan */
 
-  --hover-bg-5: #847949; /* olive */
-  --hover-text-5: #e6ddcf; /* light cream */
+  --hover-bg-5: #37121a; /* plum */
+  --hover-text-5: #97a3a3; /* dusty blue */
 
-  --hover-bg-6: #e6ddcf; /* light cream */
-  --hover-text-6: #847949; /* olive */
+  --hover-bg-6: #97a3a3; /* dusty blue */
+  --hover-text-6: #37121a; /* plum */
 
   /* ── Image sizing ───────────────────────────────── */
   --thumb-w: 480px;
@@ -66,12 +66,14 @@
   --nav-menu-letter-spacing: 0em;
 
   /* ── Typography — sizes ─────────────────────────── */
-  --font-size-brand: 22px;     /* "studio boja." nav brand */
+  --font-size-brand: 28px;     /* "studio boja." nav brand */
   --font-size-title: 16px;     /* project/section titles */
 
   /* ── Layout ─────────────────────────────────────── */
   --grid-gap: 52px;
   --page-side-padding: 80px;
+  --nav-side-padding: 120px;    /* same gap from the edge for brand (left) and menu (right) */
+  --nav-top-padding: 56px;
   --nav-height: 80px;           /* fallback; overridden by JS */
   --grid-width: calc(2 * var(--thumb-w) + var(--grid-gap));
   --grid-left: calc((100vw - var(--grid-width)) / 2);

@@ -2,7 +2,7 @@
 title: "Azores"
 category: "residential"
 subcategory: "renovation"
-order: 7
+order: 4
 ---
 
 A short description of the project, to be filled in.

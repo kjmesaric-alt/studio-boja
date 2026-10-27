@@ -2,7 +2,7 @@
 title: "VEGL"
 category: "residential"
 subcategory: "renovation"
-order: 6
+order: 3
 ---
 
 A short description of the project, to be filled in.

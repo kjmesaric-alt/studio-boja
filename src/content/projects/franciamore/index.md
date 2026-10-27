@@ -2,7 +2,7 @@
 title: "Franciamore"
 category: "residential"
 subcategory: "renovation"
-order: 4
+order: 5
 ---
 
 A short description of the project, to be filled in.

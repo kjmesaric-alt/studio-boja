@@ -2,7 +2,7 @@
 title: "D25"
 category: "residential"
 subcategory: "renovation"
-order: 3
+order: 8
 ---
 
 A short description of the project, to be filled in.
